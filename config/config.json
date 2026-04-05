@@ -7,7 +7,7 @@
   "dailyBonus": 200,
   "siteName": "Cream Casino",
   "games": {
-    "maxBet": 50000,
+    "maxBet": 9999999999999999999999,
     "minBet": 10
   }
 }
