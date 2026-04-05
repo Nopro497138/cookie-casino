@@ -1,0 +1,40 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
+  theme: {
+    extend: {
+      animation: {
+        'float': 'float 6s ease-in-out infinite',
+        'glow-pulse': 'glowPulse 3s ease-in-out infinite',
+        'shimmer': 'shimmer 2s linear infinite',
+        'slide-up': 'slideUp 0.4s ease-out',
+        'scale-in': 'scaleIn 0.3s ease-out',
+        'bounce-in': 'bounceIn 0.5s cubic-bezier(0.68,-0.55,0.265,1.55)',
+        'win-glow': 'winGlow 1s ease-out forwards',
+        'lose-shake': 'loseShake 0.5s ease-out',
+        'card-deal': 'cardDeal 0.35s ease-out',
+        'coin-flip': 'coinFlip 0.9s ease-in-out',
+        'reel-spin': 'reelSpin 0.4s ease-out',
+        'particle': 'particle 18s linear infinite',
+        'spin-slow': 'spin 10s linear infinite',
+        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+      },
+      keyframes: {
+        float: {'0%,100%':{transform:'translateY(0)'},'50%':{transform:'translateY(-18px)'}},
+        glowPulse: {'0%,100%':{opacity:'0.5',filter:'blur(25px)'},'50%':{opacity:'1',filter:'blur(35px)'}},
+        shimmer: {'0%':{backgroundPosition:'-200% 0'},'100%':{backgroundPosition:'200% 0'}},
+        particle: {'0%':{transform:'translateY(110vh) rotate(0deg)',opacity:'0'},'5%':{opacity:'0.6'},'95%':{opacity:'0.6'},'100%':{transform:'translateY(-10vh) rotate(720deg)',opacity:'0'}},
+        slideUp: {'0%':{transform:'translateY(24px)',opacity:'0'},'100%':{transform:'translateY(0)',opacity:'1'}},
+        scaleIn: {'0%':{transform:'scale(0.85)',opacity:'0'},'100%':{transform:'scale(1)',opacity:'1'}},
+        bounceIn: {'0%':{transform:'scale(0.3)',opacity:'0'},'100%':{transform:'scale(1)',opacity:'1'}},
+        winGlow: {'0%':{boxShadow:'0 0 0 rgba(16,185,129,0)'},'40%':{boxShadow:'0 0 80px rgba(16,185,129,0.9)'},'100%':{boxShadow:'0 0 20px rgba(16,185,129,0.15)'}},
+        loseShake: {'0%,100%':{transform:'translateX(0)'},'20%':{transform:'translateX(-10px)'},'40%':{transform:'translateX(10px)'},'60%':{transform:'translateX(-6px)'},'80%':{transform:'translateX(6px)'}},
+        cardDeal: {'0%':{transform:'translateX(-80px) rotate(-8deg)',opacity:'0'},'100%':{transform:'translateX(0) rotate(0deg)',opacity:'1'}},
+        coinFlip: {'0%':{transform:'rotateY(0deg)'},'50%':{transform:'rotateY(900deg)'},'100%':{transform:'rotateY(1800deg)'}},
+        reelSpin: {'0%':{transform:'translateY(-100%)'},'100%':{transform:'translateY(0)'}},
+        pulseGlow: {'0%,100%':{boxShadow:'0 0 10px rgba(139,92,246,0.3)'},'50%':{boxShadow:'0 0 30px rgba(139,92,246,0.8), 0 0 60px rgba(139,92,246,0.3)'}},
+      },
+    },
+  },
+  plugins: [],
+};

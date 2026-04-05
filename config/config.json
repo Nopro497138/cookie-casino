@@ -1,0 +1,12 @@
+{
+  "admins": [
+    "YOUR_DISCORD_USER_ID_HERE"
+  ],
+  "startingBalance": 1000,
+  "dailyBonus": 500,
+  "siteName": "Cookie Casino",
+  "games": {
+    "maxBet": 50000,
+    "minBet": 10
+  }
+}
