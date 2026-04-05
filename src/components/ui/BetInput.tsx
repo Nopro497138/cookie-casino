@@ -13,7 +13,7 @@ interface BetInputProps {
 
 const QUICK = [10, 50, 100, 500, 1000];
 
-export function BetInput({bet, onChange, balance, min=10, max=50000, disabled=false}: BetInputProps) {
+export function BetInput({bet, onChange, balance, min=10, max=99999999999999, disabled=false}: BetInputProps) {
   const set = (v: number) => onChange(Math.min(Math.max(Math.floor(v), min), Math.min(max, balance)));
   return (
     <div className="space-y-2">
