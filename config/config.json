@@ -2,11 +2,11 @@
   "siteName": "Cream Casino",
   "siteDescription": "The Premier Cookie Gambling Experience",
   "admins": ["YOUR_DISCORD_USER_ID_HERE"],
-  "startingBalance": 1000,
-  "dailyBonus": 500,
+  "startingBalance": 500,
+  "dailyBonus": 200,
   "games": {
     "minBet": 10,
-    "maxBet": 50000,
+    "maxBet": 99999999999999,
     "houseEdge": 0.05
   },
   "economy": {
