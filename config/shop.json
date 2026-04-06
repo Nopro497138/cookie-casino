@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "id": "placeholder_1",
+      "name": "Placeholder Item 1",
+      "description": "A mysterious item. Details TBD.",
+      "icon": "📦",
+      "priceUSD": 4.99,
+      "category": "general",
+      "available": true
+    },
+    {
+      "id": "placeholder_2",
+      "name": "Placeholder Item 2",
+      "description": "Another mystery item.",
+      "icon": "🎁",
+      "priceUSD": 9.99,
+      "category": "general",
+      "available": true
+    },
+    {
+      "id": "placeholder_3",
+      "name": "Placeholder Item 3",
+      "description": "Premium tier item.",
+      "icon": "💎",
+      "priceUSD": 19.99,
+      "category": "premium",
+      "available": true
+    },
+    {
+      "id": "placeholder_4",
+      "name": "Placeholder Item 4",
+      "description": "Exclusive VIP item.",
+      "icon": "👑",
+      "priceUSD": 49.99,
+      "category": "vip",
+      "available": false
+    }
+  ]
+}

@@ -1,92 +1,148 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql" url = env("DATABASE_URL") }
 
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
+  id String @id @default(cuid())
+  userId String
+  type String
+  provider String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
-
+  refresh_token String? @db.Text
+  access_token String? @db.Text
+  expires_at Int?
+  token_type String?
+  scope String?
+  id_token String? @db.Text
+  session_state String?
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   @@unique([provider, providerAccountId])
 }
-
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-
+  id String @id @default(cuid())
+  sessionToken String @unique
+  userId String
+  expires DateTime
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
-
 model User {
-  id             String   @id @default(cuid())
-  discordId      String   @unique
-  name           String?
-  email          String?  @unique
-  emailVerified  DateTime?
-  image          String?
-  balance        Int      @default(1000)
-  totalWon       Int      @default(0)
-  totalLost      Int      @default(0)
-  gamesPlayed    Int      @default(0)
-  isBanned       Boolean  @default(false)
-  banReason      String?
+  id String @id @default(cuid())
+  discordId String @unique
+  name String?
+  email String? @unique
+  emailVerified DateTime?
+  image String?
+  balance Int @default(1000)
+  usdBalance Float @default(0)
+  totalWon Int @default(0)
+  totalLost Int @default(0)
+  gamesPlayed Int @default(0)
+  isBanned Boolean @default(false)
+  banReason String?
   lastDailyBonus DateTime?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
-  accounts       Account[]
-  sessions       Session[]
-  powerups       UserPowerup[]
-  transactions   Transaction[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  accounts Account[]
+  sessions Session[]
+  powerups UserPowerup[]
+  transactions Transaction[]
+  notifications Notification[]
+  shopOrders ShopOrder[]
+  chatMessages ChatMessage[]
+  appeals BanAppeal[]
 }
-
 model VerificationToken {
   identifier String
-  token      String   @unique
-  expires    DateTime
-
+  token String @unique
+  expires DateTime
   @@unique([identifier, token])
 }
-
 model UserPowerup {
-  id         String   @id @default(cuid())
-  userId     String
-  powerupId  String
-  quantity   Int      @default(1)
-  createdAt  DateTime @default(now())
-
+  id String @id @default(cuid())
+  userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  powerupId String
+  quantity Int @default(1)
+  createdAt DateTime @default(now())
   @@unique([userId, powerupId])
 }
-
 model Transaction {
-  id          String   @id @default(cuid())
-  userId      String
-  amount      Int
-  balanceAfter Int
-  type        String
-  game        String?
-  description String?
-  createdAt   DateTime @default(now())
-
+  id String @id @default(cuid())
+  userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount Int
+  balanceAfter Int
+  type String
+  game String?
+  description String?
+  createdAt DateTime @default(now())
+}
+model Notification {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type String
+  title String
+  message String
+  read Boolean @default(false)
+  metadata String?
+  createdAt DateTime @default(now())
+}
+model Announcement {
+  id String @id @default(cuid())
+  adminId String
+  adminName String
+  title String
+  message String
+  pinned Boolean @default(false)
+  createdAt DateTime @default(now())
+}
+model ShopOrder {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  itemId String
+  itemName String
+  priceUSD Float
+  status String @default("open")
+  chatOpen Boolean @default(true)
+  createdAt DateTime @default(now())
+  messages ChatMessage[]
+}
+model ChatMessage {
+  id String @id @default(cuid())
+  orderId String
+  order ShopOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content String
+  isAdmin Boolean @default(false)
+  createdAt DateTime @default(now())
+}
+model BanAppeal {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reason String @db.Text
+  additionalInfo String? @db.Text
+  status String @default("pending")
+  adminNote String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model AdminLog {
+  id String @id @default(cuid())
+  adminId String
+  adminName String
+  action String
+  targetId String?
+  targetName String?
+  details String?
+  createdAt DateTime @default(now())
+}
+model Deposit {
+  id String @id @default(cuid())
+  userId String
+  amountUSD Float
+  cookiesGranted Int
+  createdAt DateTime @default(now())
 }

@@ -1,15 +1,21 @@
 {
-  "admins": [
-    "1074000821836058694",
-    "1141544275847417918",
-    "1238227945626275960",
-    "1262105806682325175"
-  ],
-  "startingBalance": 500,
-  "dailyBonus": 200,
   "siteName": "Cream Casino",
+  "siteDescription": "The Premier Cookie Gambling Experience",
+  "admins": ["YOUR_DISCORD_USER_ID_HERE"],
+  "startingBalance": 1000,
+  "dailyBonus": 500,
   "games": {
-    "maxBet": 99999999999999,
-    "minBet": 10
-  }
+    "minBet": 10,
+    "maxBet": 50000,
+    "houseEdge": 0.05
+  },
+  "economy": {
+    "cookiesPerDollar": 1000000,
+    "maxDepositUSD": 100
+  },
+  "leaderboard": {
+    "topCount": 50
+  },
+  "maintenance": false,
+  "maintenanceMessage": "We are currently performing maintenance. Check back soon!"
 }
