@@ -11,7 +11,7 @@
   "games": {
     "minBet": 10,
     "maxBet": 99999999999999,
-    "houseEdge": 0.05
+    "houseEdge": 0.1
   },
   "economy": {
     "cookiesPerDollar": 1000000,
