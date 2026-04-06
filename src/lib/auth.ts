@@ -1,5 +1,5 @@
 import { NextAuthOptions } from "next-auth";
-import type { Adapter } from "next-auth/adapters";
+import type { Adapter, AdapterUser } from "next-auth/adapters";
 import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./db";
@@ -9,8 +9,8 @@ const baseAdapter = PrismaAdapter(prisma);
 
 const adapter: Adapter = {
   ...baseAdapter,
-  async createUser(data) {
-    const discordId = (data as { discordId?: string }).discordId ?? data.id;
+  async createUser(data: Omit<AdapterUser, "id"> & { discordId?: string }) {
+    const discordId = data.discordId;
 
     if (!discordId) {
       throw new Error("Missing Discord ID during OAuth user creation.");
@@ -18,7 +18,10 @@ const adapter: Adapter = {
 
     const user = await prisma.user.create({
       data: {
-        ...data,
+        name: data.name,
+        email: data.email,
+        image: data.image,
+        emailVerified: data.emailVerified ?? null,
         discordId,
       },
     });
