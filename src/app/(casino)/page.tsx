@@ -108,7 +108,7 @@ export default function CasinoPage() {
 
   // BANNED — show full ban screen
   if (status === "authenticated" && session?.user?.isBanned) {
-    return <BanScreen reason={session.user.banReason} userId={session.user.id} />;
+    return <BanScreen reason={session.user.banReason ?? undefined} userId={session.user.id} />;
   }
 
   if (status !== "authenticated") return null;
