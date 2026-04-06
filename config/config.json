@@ -16,6 +16,6 @@
   "leaderboard": {
     "topCount": 50
   },
-  "maintenance": false,
+  "maintenance": true,
   "maintenanceMessage": "We are currently performing maintenance. Check back soon!"
 }
