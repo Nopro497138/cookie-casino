@@ -1,10 +1,9 @@
 {
   "siteName": "Cream Casino",
   "siteDescription": "The Premier Cookie Gambling Experience",
-  "admins": {
-    "1074000821836058694",
-    "1443092970680225843"
-  },
+   "admins": [
+   "YOUR_DISCORD_USER_ID_HERE"
+ ],
   "startingBalance": 500,
   "dailyBonus": 200,
   "games": {
@@ -19,6 +18,6 @@
   "leaderboard": {
     "topCount": 50
   },
-  "maintenance": true,
+  "maintenance": false,
   "maintenanceMessage": "We are currently performing maintenance. Check back soon!"
 }
