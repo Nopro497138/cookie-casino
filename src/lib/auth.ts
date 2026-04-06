@@ -1,12 +1,45 @@
 import { NextAuthOptions } from "next-auth";
+import type { Adapter } from "next-auth/adapters";
 import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./db";
 import { config } from "./config";
 
+const baseAdapter = PrismaAdapter(prisma);
+
+const adapter: Adapter = {
+  ...baseAdapter,
+  async createUser(data) {
+    const discordId = (data as { discordId?: string }).discordId ?? data.id;
+
+    if (!discordId) {
+      throw new Error("Missing Discord ID during OAuth user creation.");
+    }
+
+    const user = await prisma.user.create({
+      data: {
+        ...data,
+        discordId,
+      },
+    });
+
+    await prisma.transaction.create({
+      data: {
+        userId: user.id,
+        amount: config.startingBalance,
+        balanceAfter: config.startingBalance,
+        type: "welcome_bonus",
+        description: "Welcome bonus!",
+      },
+    });
+
+    return user;
+  },
+};
+
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
-  adapter: PrismaAdapter(prisma),
+  adapter,
   providers: [
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID!,
@@ -36,7 +69,7 @@ export const authOptions: NextAuthOptions = {
       const p = profile as { id?: string };
       if (!p?.id) return false;
 
-      const existing = await prisma.user.findFirst({
+      const existing = await prisma.user.findUnique({
         where: { discordId: p.id },
       });
 
@@ -63,25 +96,10 @@ export const authOptions: NextAuthOptions = {
           },
         });
 
-        if (db) {
-          Object.assign(session.user, db);
-        }
+        if (db) Object.assign(session.user, db);
       }
 
       return session;
-    },
-  },
-  events: {
-    async createUser({ user }) {
-      await prisma.transaction.create({
-        data: {
-          userId: user.id,
-          amount: config.startingBalance,
-          balanceAfter: config.startingBalance,
-          type: "welcome_bonus",
-          description: "Welcome bonus!",
-        },
-      });
     },
   },
   pages: {
@@ -89,18 +107,3 @@ export const authOptions: NextAuthOptions = {
     error: "/login",
   },
 };
-
-declare module "next-auth" {
-  interface Session {
-    user: {
-      id: string;
-      name?: string | null;
-      email?: string | null;
-      image?: string | null;
-      discordId?: string;
-      balance?: number;
-      isBanned?: boolean;
-      banReason?: string;
-    };
-  }
-}
